@@ -1,0 +1,105 @@
+import random
+
+def check_p_c(fanswer, panswer):
+    ltemp=[]
+    temp=[]
+    cposition=0
+    ccolor=0
+    for l in range(len(fanswer)):
+        if fanswer[l] == panswer[l]:
+            cposition +=1
+            ltemp.append(l)
+    xl=-1
+    for x in panswer:
+        yl=-1
+        xl+=1
+        second_lock=0
+        for y in fanswer:
+            lock= 0
+            yl+=1
+            if x == y:
+                for l in ltemp:
+                    if xl == l or yl == l:
+                        lock = 1
+                if lock == 0:
+                    if temp==[]:
+                        ccolor+=1
+                        temp.append(x)
+                        continue
+
+                    elif temp!=[]:
+                        for i in temp:
+                            if x == i:
+                                second_lock = 1
+                    if second_lock == 0:
+                        ccolor+=1
+                        temp.append(x)
+    print(f'POSIÇÕES CORRETAS: {cposition}   NÚMEROS CORRETOS: {ccolor}')
+
+def game(num,rounds):
+    group = []
+    fanswer = []
+    r = 1
+    for i in range(num):
+        color = random.randint(1,6)
+        group.append(color)
+    while fanswer != group and r <= rounds:
+        error = 0
+        fanswer = []
+        print(f'\nROUND {r}')
+        answer = input('Insira os valores correspondentes. (DIGITE TUDO EM UMA MENSAGEM)\n>>')
+        if len(answer) != num:
+            print('\nTamanho Inválido.')
+            continue
+        
+        try:
+            int(answer)
+        except ValueError:
+            print('Números Inválidos.')
+            continue
+
+        for n in range(num):
+            x = int(answer[n])
+            fanswer.append(x)
+        for h in fanswer:
+            if h < 1 or h > 6:
+                print('\nNúmeros Inválidos.')
+                error = 1
+        if error == 1:
+            continue
+        
+        r += 1 
+        check_p_c(group, fanswer)
+    if fanswer == group:
+        print('\nVOCÊ VENCEU!')
+    else:
+        print('\nVOCÊ PERDEU...')
+    print(f'\nA RESPOSTA ERA: {group}')
+
+#MAIN
+while True:
+    print('\n\nCOORL GAYME')
+    print('\n1. EASY\n2. NORMAL\n3. HARD\n4. REGRAS\n5. SAIR')
+    try: 
+        dec = int(input('>>'))
+    except ValueError:
+        print('Escolha Invalida.')
+        continue
+    if dec ==1:
+        print('\nEASY')
+        game(4,7)
+    elif dec == 2:
+        print('\nNORMAL')
+        game(5,8)
+    elif dec == 3:
+        print('\nHARD')
+        game(7,10)
+    elif dec == 4:
+        print('\nRULES')
+    elif dec == 5:
+        print('\nDESLIGANDO...')
+        break
+
+    else:
+        print('Escolha Inválida.')
+        continue
